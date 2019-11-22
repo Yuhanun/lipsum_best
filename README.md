@@ -4,7 +4,7 @@ Webserver for lipsum.best
 
 ## Installation ##
 - Get vcpkg
-- vcpkg install cpprestsdk
+- vcpkg install cpprestsdk nlohmann-json
 - vcpkg integrate install
 - git clone https://github.com/Yuhanun/lipsum_best.git
 - cd lipsum_best
