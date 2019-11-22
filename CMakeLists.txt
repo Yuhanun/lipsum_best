@@ -12,7 +12,8 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(include)
 
 add_executable(lipsum_best
-               main.cpp)
+               main.cpp
+               src/server.cpp)
                
 set(CMAKE_BUILD_TYPE Debug)
 
