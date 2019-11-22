@@ -1,13 +1,14 @@
 #include "server.hpp"
 
+#include "utility.hpp"
+
 namespace lipsum {
     Lipsum::Lipsum() {
-        instance = this;
+        Lipsum::instance = this;
     }
 
     Lipsum::Lipsum(utility::string_t url)
         : listener{ url } {
-        instance = this;
         listener.support("GET", [this](auto const& val) {
             this->handle_get(val);
         });
@@ -39,7 +40,7 @@ namespace lipsum {
 
     void Lipsum::handle_post(web::http::http_request message) {
         std::cout << message.to_string() << std::endl;
-        message.reply(web::http::status_codes::OK);
+        message.reply(web::http::status_codes::OK, utils::to_json({ { "status", "ok" }, { "message", "" }, { "error", "" } }));
     }
 
     void Lipsum::handle_delete(web::http::http_request message) {

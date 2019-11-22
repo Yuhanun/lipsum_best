@@ -6,7 +6,7 @@
 std::unique_ptr<lipsum::Lipsum> http_server;
 
 void on_initialize(const utility::string_t& address) {
-    web::http::uri_builder uri( address );
+    web::http::uri_builder uri(address);
     auto addr = uri.to_uri().to_string();
 
     http_server = std::make_unique<lipsum::Lipsum>(addr);
@@ -24,10 +24,9 @@ int main(int argc, char** argv) {
         std::cout << "Invalid usage, usage: ./lipsum_best {address} {port}" << std::endl;
         return 1;
     }
+
     std::string address = argv[1];
     std::string port = argv[2];
-
-
 
     on_initialize(address + ":" + port);
 
