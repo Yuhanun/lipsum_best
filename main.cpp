@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
 #include <memory>
 
 #include "server.hpp"
@@ -30,9 +32,9 @@ int main(int argc, char** argv) {
 
     on_initialize(address + ":" + port);
 
-    std::cout << "Press ENTER to exit." << std::endl;
-
-    std::cin.get();
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 
     on_shutdown();
     return 0;
