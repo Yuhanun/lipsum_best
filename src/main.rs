@@ -1,17 +1,18 @@
-#![feature(proc_macro_hygiene, decl_macro)]
-
 #[macro_use]
-extern crate rocket;
+extern crate diesel;
+extern crate dotenv;
 
-extern crate db_handler;
+mod database;
+mod models;
+mod schema;
 
-#[get("/")]
-fn welcome() -> String {
-    format!("Welcome to lipsum.best!")
-}
+use database as db;
 
 fn main() {
-    let connection = db_handler::establish_connection();
-    println!("{:?}", connection);
-    // rocket::ignite().mount("/", routes![welcome]).launch();
+    let conn = db::establish_connection();
+
+    // println!("Insert: {:#?}", db::insert_food_entry_today(&conn, "John"));
+
+    // println!("All: {:#?}", db::get_all_food_entries(&conn));
+    // println!("Today: {:#?}", db::get_today_food_entries(&conn));
 }
