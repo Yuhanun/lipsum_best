@@ -1,15 +1,28 @@
 use rocket::*;
-use serde_json::json;
+use serde_json::*;
 
+use crate::db;
 
-#[get("/waaier/enroll/<name>")]
-pub fn hello(
-    state: State<std::sync::Arc<std::sync::Mutex<diesel::PgConnection>>>,
-    name: String,
-) -> String {
-    db::insert_food_entry_today(&state.get().lock(), name: &str)
-    json!({
-        "status": false,
-        "payload": {}
-    }).to_string()
+#[post("/waaier/enroll/<name>")]
+pub fn enroll(conn: db::LipsumDbConn, name: String) -> String {
+    match db::insert_food_entry_today(&conn, &name) {
+        Ok(entry) => json!({
+            "status": false,
+            "payload": {
+                "entry": {
+                    "name": entry.person_name,
+                    "food_date": format!("{}", entry.food_date),
+                    "id": entry.id
+                }
+            }
+        })
+        .to_string(),
+        Err(e) => json!({
+            "status": true,
+            "payload": {
+                "error": format!("{}", e)
+            }
+        })
+        .to_string(),
+    }
 }

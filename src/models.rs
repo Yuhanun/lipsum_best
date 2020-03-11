@@ -1,7 +1,7 @@
 use crate::schema::foodentries;
 #[table_name = "foodentries"]
+
 #[derive(Insertable, Debug)]
-#[table_name = "foodentries"]
 pub struct NewFoodEntry<'a> {
     pub person_name: &'a str,
 }

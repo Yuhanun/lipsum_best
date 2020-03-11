@@ -3,14 +3,16 @@ use crate::models::*;
 use crate::schema::foodentries::dsl::*;
 use chrono::Datelike;
 use diesel::pg::PgConnection;
-use dotenv::dotenv;
-use std::env;
+use rocket_contrib::database;
 
-pub fn establish_connection() -> PgConnection {
-    dotenv().ok();
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    PgConnection::establish(&database_url).expect(&format!("Error connecting to {}", database_url))
-}
+#[database("lipsum_best")]
+pub struct LipsumDbConn(rocket_contrib::databases::diesel::PgConnection);
+
+// pub fn establish_connection() -> PgConnection {
+//     dotenv().ok();
+//     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+//     PgConnection::establish(&database_url).expect(&format!("Error connecting to {}", database_url))
+// }
 
 pub fn insert_food_entry_today(conn: &PgConnection, name: &str) -> QueryResult<FoodEntry> {
     diesel::insert_into(foodentries)
