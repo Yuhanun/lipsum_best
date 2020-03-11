@@ -1,0 +1,6 @@
+-- Your SQL goes here
+CREATE TABLE FoodEntries (
+    id SERIAL PRIMARY KEY,
+    person_name VARCHAR NOT NULL,
+    food_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP 
+);
