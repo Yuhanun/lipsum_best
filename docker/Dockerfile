@@ -2,9 +2,6 @@ FROM rust:latest
 
 LABEL Maintainer Yuhanun Citgez <y.citgez@student.utwente.nl>
 
-# Postgres input
-ARG POSTGRES_URL
-
 # Set rustup to nightly
 RUN rustup default nightly
 
@@ -15,23 +12,11 @@ RUN mkdir /data
 RUN git clone https://github.com/Yuhanun/lipsum_best.git \
 				--recursive /data/lipsum_best
 
-# Set the Rocket.toml file
-RUN echo "[global.databases] \n\
-waaier = { url = \"$POSTGRES_URL\" }" > /data/lipsum_best/Rocket.toml
-
-# Some minor diesel setup stuff
-RUN echo "DATABASE_URL=$POSTGRES_URL" > .env
-
 # Get diesel_cli
-RUN cargo install diesel_cli
+RUN cargo install diesel_cli --no-default-features --features postgres
 
-# Setup diesel
-RUN cd /data/lipsum_best && \
-		diesel setup && \
-		diesel migration run --database-url="$POSTGRES_URL"
-
-# Set work directory.
-WORKDIR /data/lipsum_best
+# Copy over startup.sh
+COPY startup.sh /startup.sh
 
 # Run on docker launch
-CMD git pull && cargo run --release
+CMD "/startup.sh"

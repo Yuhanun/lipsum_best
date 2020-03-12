@@ -1,0 +1,16 @@
+version: '3'
+services:
+  lipsum_best:
+    build:
+      context: ./docker
+    image: yuhanuncitgez/lipsum_best:latest
+    container_name: lipsum_best
+    ports:
+      - "8080:8000"
+    environment:
+      - POSTGRES_URL=postgres://postgres:password@lipsum_database/postgres
+  database:
+    image: postgres
+    container_name: lipsum_database
+    environment:
+      - POSTGRES_PASSWORD=password
