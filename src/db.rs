@@ -6,7 +6,7 @@ use diesel::pg::PgConnection;
 use rocket_contrib::database;
 
 #[database("lipsum_best")]
-pub struct LipsumDbConn(rocket_contrib::databases::diesel::PgConnection);
+pub struct LipsumDb(rocket_contrib::databases::diesel::PgConnection);
 
 // pub fn establish_connection() -> PgConnection {
 //     dotenv().ok();

@@ -13,7 +13,7 @@ mod waaier;
 
 fn main() {
     rocket::ignite()
-        .attach(db::LipsumDbConn::fairing())
+        .attach(db::LipsumDb::fairing())
         .mount("/api", rocket::routes![waaier::enroll])
         .launch();
 }

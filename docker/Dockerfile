@@ -12,16 +12,26 @@ RUN rustup default nightly
 RUN mkdir /data
 
 # Clone the repo
-RUN git clone https://github.com/Yuhanun/lipsum_best.git --recursive /data/lipsum_best && \
-		cd /data/lipsum_best && \
-		cargo build --release
+RUN git clone https://github.com/Yuhanun/lipsum_best.git \
+				--recursive /data/lipsum_best
 
 # Set the Rocket.toml file
 RUN echo "[global.databases] \n\
-lipsum_best = { url = \"$POSTGRES_URL\" }" > /data/lipsum_best/Rocket.toml
+waaier = { url = \"$POSTGRES_URL\" }" > /data/lipsum_best/Rocket.toml
+
+# Some minor diesel setup stuff
+RUN echo "DATABASE_URL=$POSTGRES_URL" > .env
+
+# Get diesel_cli
+RUN cargo install diesel_cli
+
+# Setup diesel
+RUN cd /data/lipsum_best && \
+		diesel setup && \
+		diesel migration run --database-url="$POSTGRES_URL"
 
 # Set work directory.
 WORKDIR /data/lipsum_best
 
 # Run on docker launch
-CMD cargo run --release
+CMD git pull && cargo run --release

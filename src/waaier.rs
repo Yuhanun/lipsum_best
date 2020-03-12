@@ -4,7 +4,7 @@ use serde_json::*;
 use crate::db;
 
 #[post("/waaier/enroll/<name>")]
-pub fn enroll(conn: db::LipsumDbConn, name: String) -> String {
+pub fn enroll(conn: db::LipsumDb, name: String) -> String {
     match db::insert_food_entry_today(&conn, &name) {
         Ok(entry) => json!({
             "status": false,
